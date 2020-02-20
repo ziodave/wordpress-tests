@@ -10,4 +10,6 @@ echo "Building $TAG..."
 docker build --build-arg PHPUNIT_VERSION=$PHPUNIT_VERSION \
   --build-arg WORDPRESS_VERSION=$WORDPRESS_VERSION \
   --build-arg PHP_VERSION=$PHP_VERSION \
-  -t $TAG .
+  -t $TAG . \
+  && docker tag $TAG ziodave/$TAG \
+  && docker push ziodave/$TAG
