@@ -15,6 +15,7 @@ RUN set -ex; \
 		libmagickwand-dev \
 		libpng-dev \
 		libzip-dev \
+		unzip \
 	; \
 	\
 	docker-php-ext-configure gd; \
@@ -31,7 +32,7 @@ RUN set -ex; \
 # reset apt-mark's "manual" list so that "purge --auto-remove" will remove all build dependencies
 	apt-mark auto '.*' > /dev/null; \
 	apt-mark manual $savedAptMark; \
-	apt-mark hold git subversion ; \
+	apt-mark hold git subversion unzip ; \
 	ldd "$(php -r 'echo ini_get("extension_dir");')"/*.so \
 		| awk '/=>/ { print $3 }' \
 		| sort -u \
@@ -55,6 +56,9 @@ COPY install-wp-tests.sh .
 
 ARG WORDPRESS_VERSION=latest
 RUN /tmp/install-wp-tests.sh wordpress wordpress password db ${WORDPRESS_VERSION} true
+
+COPY install-composer.sh .
+RUN /tmp/install-composer.sh
 
 VOLUME ["/app"]
 WORKDIR /app
