@@ -6,6 +6,6 @@ inputs:
     required: false
 runs:
   using: 'docker'
-  image: 'docker://ziodave/wordpress-tests:php7.0-phpunit4.8-wordpress4.9'
+  image: 'docker://ziodave/wordpress-tests:php7.0-phpunit4.8-wordpress5.0'
   args:
     - ${{ inputs.args }}
