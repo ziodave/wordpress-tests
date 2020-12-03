@@ -1,0 +1,47 @@
+name: 'WordPress Plugin Tests'
+description: 'Test WordPress plugins and themes.'
+inputs:
+  arg0:
+    description: 'PHPUnit arguments'
+    required: false
+  arg1:
+    description: 'PHPUnit arguments'
+    required: false
+  arg2:
+    description: 'PHPUnit arguments'
+    required: false
+  arg3:
+    description: 'PHPUnit arguments'
+    required: false
+  arg4:
+    description: 'PHPUnit arguments'
+    required: false
+  arg5:
+    description: 'PHPUnit arguments'
+    required: false
+  arg6:
+    description: 'PHPUnit arguments'
+    required: false
+  arg7:
+    description: 'PHPUnit arguments'
+    required: false
+  arg8:
+    description: 'PHPUnit arguments'
+    required: false
+  arg9:
+    description: 'PHPUnit arguments'
+    required: false
+runs:
+  using: 'docker'
+  image: '__IMAGE_NAME__'
+  args:
+    - ${{ inputs.arg0 }}
+    - ${{ inputs.arg1 }}
+    - ${{ inputs.arg2 }}
+    - ${{ inputs.arg3 }}
+    - ${{ inputs.arg4 }}
+    - ${{ inputs.arg5 }}
+    - ${{ inputs.arg6 }}
+    - ${{ inputs.arg7 }}
+    - ${{ inputs.arg8 }}
+    - ${{ inputs.arg9 }}

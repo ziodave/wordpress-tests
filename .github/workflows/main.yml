@@ -1,0 +1,29 @@
+# on:
+  # schedule:
+    # * is a special character in YAML so you have to quote this string
+    # - cron:  '0 0 * * *'
+
+jobs:
+  docker:
+    strategy:
+      matrix:
+        php: [ 5.4, 5.5, 5.6, 7.0, 7.1, 7.2, 7.3, 7.4 ]
+        wordpress: [ 4.4, 4.5, 4.6, 4.7, 4.8, 4.9, 5.0, 5.1, 5.2, 5.3, 5.4, 5.5 ]
+        phpunit: [ 4.8, 7.5, 8.5 ]
+        exclude:
+          - php: [ 5.4, 5.5 ]
+            wordpress: [ 5.0, 5.1, 5.2, 5.3, 5.4, 5.5 ]
+            phpunit: [ 7.5, 8.5 ]
+    env:
+      PHP_VERSION: ${{ matrix.php }}
+      WORDPRESS_VERSION: ${{ matrix.wordpress }} 
+      PHPUNIT_VERSION: ${{ matrix.phpunit }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: build
+        run: ./build.sh
+        working-directory: ./.docker
+
+      
+
