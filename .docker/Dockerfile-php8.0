@@ -26,8 +26,6 @@ RUN set -ex; \
 		mysqli  \
 		zip \
 	; \
-	# pecl install imagick-3.4.4; \
-	# docker-php-ext-enable imagick; \
 	\
 # reset apt-mark's "manual" list so that "purge --auto-remove" will remove all build dependencies
 	apt-mark auto '.*' > /dev/null; \
@@ -44,7 +42,33 @@ RUN set -ex; \
 	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
 	rm -rf /var/lib/apt/lists/*
 
+RUN set -ex; \
+	\
+	savedAptMark="$(apt-mark showmanual)"; \
+	\
+	apt-get update; \
+	apt-get install -y --no-install-recommends \
+	    libmagick++-dev \
+	; \
+	\
+# reset apt-mark's "manual" list so that "purge --auto-remove" will remove all build dependencies
+	apt-mark auto '.*' > /dev/null; \
+	apt-mark manual $savedAptMark; \
+	apt-mark hold libmagick++-dev ; \
+	\
+	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
+	rm -rf /var/lib/apt/lists/*
+
 WORKDIR /tmp
+
+RUN curl -LO https://github.com/Imagick/imagick/archive/master.zip ; \
+		unzip -d . master.zip ; \
+		rm master.zip ; \
+		cd imagick-master ; \
+		phpize && ./configure ; \
+		make && make install ; \
+		docker-php-ext-enable imagick ; \
+		cd .. && rm -fr imagick-master
 
 COPY install-composer.sh .
 RUN /tmp/install-composer.sh
