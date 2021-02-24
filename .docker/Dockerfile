@@ -44,6 +44,18 @@ RUN set -ex; \
 	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
 	rm -rf /var/lib/apt/lists/*
 
+RUN pecl install xdebug ; \
+	docker-php-ext-enable xdebug
+
+RUN { \
+        echo "xdebug.mode=coverage,debug,profile" ; \
+        echo "xdebug.client_host=host.docker.internal" ; \
+		echo "xdebug.profiler_enable_trigger=1" ; \
+		echo "xdebug.profiler_output_dir=/tmp/xdebug" ; \
+		echo "xdebug.start_with_request=trigger" ; \
+		echo "xdebug.output_dir=/tmp/xdebug" ; \
+	} >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
 ARG PHPUNIT_VERSION=4.8
 RUN curl -LO https://phar.phpunit.de/phpunit-${PHPUNIT_VERSION}.phar && \
     chmod +x phpunit-${PHPUNIT_VERSION}.phar && \
@@ -59,6 +71,9 @@ RUN /tmp/install-wp-tests.sh wordpress wordpress password db ${WORDPRESS_VERSION
 
 COPY install-composer.sh .
 RUN /tmp/install-composer.sh
+
+ARG PHP_CODE_COVERAGE=2
+RUN composer global require phpunit/php-code-coverage:^${PHP_CODE_COVERAGE}
 
 VOLUME ["/app"]
 WORKDIR /app

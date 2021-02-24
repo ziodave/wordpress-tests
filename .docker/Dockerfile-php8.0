@@ -74,11 +74,13 @@ COPY install-composer.sh .
 RUN /tmp/install-composer.sh
 
 ARG GITHUB_TOKEN
+ARG PHP_CODE_COVERAGE=6.1.4
 RUN composer config -g github-oauth.github.com ${GITHUB_TOKEN} && \
 	composer global config minimum-stability dev && \
 	composer global config prefer-stable true && \
 	composer config -g repositories.github-phpunit-woocommerce vcs https://github.com/woocommerce/phpunit && \
 	composer global require phpunit/phpunit:dev-add-compatibility-with-php8-to-phpunit-7 --ignore-platform-reqs && \
+	composer global require phpunit/php-code-coverage:^${PHP_CODE_COVERAGE} && \
 	composer config -g github-oauth.github.com --unset && \
 	ln -s /root/.composer/vendor/bin/phpunit /usr/local/bin/phpunit
 
