@@ -61,7 +61,7 @@ ARG PHPUNIT_VERSION=4.8
 RUN curl -k -LO https://phar.phpunit.de/phpunit-${PHPUNIT_VERSION}.phar && \
     chmod +x phpunit-${PHPUNIT_VERSION}.phar && \
     mv phpunit-${PHPUNIT_VERSION}.phar /usr/local/bin/phpunit && \
-    phpunint --version
+    phpunit --version
 
 WORKDIR /tmp
 
