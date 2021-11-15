@@ -17,6 +17,7 @@ docker build \
   --build-arg PHPUNIT_VERSION=$PHPUNIT_VERSION \
   --build-arg WORDPRESS_VERSION=$WORDPRESS_VERSION \
   --build-arg PHP_VERSION=$PHP_VERSION \
+  --build-arg XDEBUG_VERSION=$XDEBUG_VERSION \
   -t ziodave/$TAG . \
 
 echo "Pushing $TAG..."
