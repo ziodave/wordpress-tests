@@ -44,7 +44,8 @@ RUN set -ex; \
 	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
 	rm -rf /var/lib/apt/lists/*
 
-RUN pecl install xdebug ; \
+ARG XDEBUG_VERSION=2.5.5
+RUN pecl install xdebug-${XDEBUG_VERSION} ; \
 	docker-php-ext-enable xdebug
 
 RUN { \
@@ -57,10 +58,10 @@ RUN { \
 	} >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 ARG PHPUNIT_VERSION=4.8
-RUN curl -LO https://phar.phpunit.de/phpunit-${PHPUNIT_VERSION}.phar && \
+RUN curl -k -LO https://phar.phpunit.de/phpunit-${PHPUNIT_VERSION}.phar && \
     chmod +x phpunit-${PHPUNIT_VERSION}.phar && \
     mv phpunit-${PHPUNIT_VERSION}.phar /usr/local/bin/phpunit && \
-    phpunit --version
+    phpunint --version
 
 WORKDIR /tmp
 
