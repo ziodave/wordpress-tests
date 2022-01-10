@@ -49,6 +49,9 @@ RUN pecl install xdebug-${XDEBUG_VERSION} ; \
 	docker-php-ext-enable xdebug
 
 RUN { \
+		echo "xdebug.remote_enable=On" ; \
+		echo "xdebug.remote_host=host.docker.internal" ; \
+		\
         echo "xdebug.mode=coverage,debug,profile" ; \
         echo "xdebug.client_host=host.docker.internal" ; \
 		echo "xdebug.profiler_enable_trigger=1" ; \
