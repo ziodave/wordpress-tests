@@ -26,13 +26,21 @@ RUN set -ex; \
 		mysqli  \
 		zip \
 	; \
-	pecl install imagick-3.4.4; \
+	pecl install imagick-3.8.0; \
 	docker-php-ext-enable imagick; \
 	\
 # reset apt-mark's "manual" list so that "purge --auto-remove" will remove all build dependencies
 	apt-mark auto '.*' > /dev/null; \
 	apt-mark manual $savedAptMark; \
-	apt-mark hold git subversion unzip ; \
+	apt-mark hold git \
+		subversion \
+		libfreetype6-dev \
+		libjpeg-dev \
+		libmagickwand-dev \
+		libpng-dev \
+		libzip-dev \
+		unzip \
+	 ; \
 	ldd "$(php -r 'echo ini_get("extension_dir");')"/*.so \
 		| awk '/=>/ { print $3 }' \
 		| sort -u \
@@ -41,7 +49,7 @@ RUN set -ex; \
 		| sort -u \
 		| xargs -rt apt-mark manual; \
 	\
-	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
+	# apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
 	rm -rf /var/lib/apt/lists/*
 
 ARG XDEBUG_VERSION=2.5.5
