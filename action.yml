@@ -33,7 +33,7 @@ inputs:
     required: false
 runs:
   using: 'docker'
-  image: 'docker://ziodave/wordpress-tests:php6.2-phpunit4.8-wordpress5.1'
+  image: 'docker://ziodave/wordpress-tests:php6.2-phpunit4.8-wordpress5.2'
   args:
     - ${{ inputs.arg0 }}
     - ${{ inputs.arg1 }}
