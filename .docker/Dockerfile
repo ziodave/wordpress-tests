@@ -85,7 +85,7 @@ COPY install-composer.sh .
 RUN /tmp/install-composer.sh
 
 ARG PHP_CODE_COVERAGE=2
-RUN composer global require phpunit/php-code-coverage:^${PHP_CODE_COVERAGE}
+RUN composer global require --dev phpunit/php-code-coverage:^${PHP_CODE_COVERAGE} yoast/phpunit-polyfills:"^4.0"
 
 VOLUME ["/app"]
 WORKDIR /app
